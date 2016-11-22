@@ -1,0 +1,231 @@
+{
+  "version": 2,
+  "targets": {
+    ".NETFramework,Version=v4.6": {
+      "Microsoft.Azure.Search/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Rest.ClientRuntime.Azure": "[2.5.2, 3.0.0)",
+          "Microsoft.Spatial": "[6.13.0, 7.0.0)"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Azure.Search.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Azure.Search.dll": {}
+        }
+      },
+      "Microsoft.Rest.ClientRuntime/1.8.1": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "7.0.1"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System",
+          "System.Core",
+          "System.Net",
+          "System.Net.Http",
+          "System.Net.Http.WebRequest",
+          "System.Xml",
+          "mscorlib"
+        ],
+        "compile": {
+          "lib/net45/Microsoft.Rest.ClientRuntime.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Rest.ClientRuntime.dll": {}
+        }
+      },
+      "Microsoft.Rest.ClientRuntime.Azure/2.5.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Rest.ClientRuntime": "[1.8.1, 2.0.0)"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System",
+          "System.Core",
+          "System.Net",
+          "System.Net.Http",
+          "System.Net.Http.WebRequest",
+          "System.Xml",
+          "mscorlib"
+        ],
+        "compile": {
+          "lib/net45/Microsoft.Rest.ClientRuntime.Azure.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Rest.ClientRuntime.Azure.dll": {}
+        }
+      },
+      "Microsoft.Spatial/6.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/portable-net40+sl5+wp8+win8+wpa/Microsoft.Spatial.dll": {}
+        },
+        "runtime": {
+          "lib/portable-net40+sl5+wp8+win8+wpa/Microsoft.Spatial.dll": {}
+        },
+        "resource": {
+          "lib/portable-net40+sl5+wp8+win8+wpa/de/Microsoft.Spatial.resources.dll": {
+            "locale": "de"
+          },
+          "lib/portable-net40+sl5+wp8+win8+wpa/es/Microsoft.Spatial.resources.dll": {
+            "locale": "es"
+          },
+          "lib/portable-net40+sl5+wp8+win8+wpa/fr/Microsoft.Spatial.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/portable-net40+sl5+wp8+win8+wpa/it/Microsoft.Spatial.resources.dll": {
+            "locale": "it"
+          },
+          "lib/portable-net40+sl5+wp8+win8+wpa/ja/Microsoft.Spatial.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/portable-net40+sl5+wp8+win8+wpa/ko/Microsoft.Spatial.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/portable-net40+sl5+wp8+win8+wpa/ru/Microsoft.Spatial.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/portable-net40+sl5+wp8+win8+wpa/zh-Hans/Microsoft.Spatial.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/portable-net40+sl5+wp8+win8+wpa/zh-Hant/Microsoft.Spatial.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Microsoft.Azure.Search/1.1.3": {
+      "sha512": "JUIdxRsw317kuQFcS5Fdmo/Edxn+ATnZ4HjMOTaYbAgHZQroCwmU+DwWn6ZHpq/whtzJiA5hdtitpCJkddwokg==",
+      "type": "package",
+      "path": "microsoft.azure.search/1.1.3",
+      "files": [
+        "lib/net45/Microsoft.Azure.Search.dll",
+        "lib/net45/Microsoft.Azure.Search.xml",
+        "lib/portable-net403+win8+wpa81/Microsoft.Azure.Search.dll",
+        "lib/portable-net403+win8+wpa81/Microsoft.Azure.Search.xml",
+        "microsoft.azure.search.1.1.3.nupkg.sha512",
+        "microsoft.azure.search.nuspec"
+      ]
+    },
+    "Microsoft.Rest.ClientRuntime/1.8.1": {
+      "sha512": "h7qB4anQ3RFSBWyvPWkSweBc+jCZe8q05j21fmORJdpEEzwUFDx0b6K2FWvvtNt7LOEpja9cP8EMbBEXCEhz6Q==",
+      "type": "package",
+      "path": "microsoft.rest.clientruntime/1.8.1",
+      "files": [
+        "lib/dnxcore50/Microsoft.Rest.ClientRuntime.dll",
+        "lib/dnxcore50/Microsoft.Rest.ClientRuntime.xml",
+        "lib/net45/Microsoft.Rest.ClientRuntime.dll",
+        "lib/net45/Microsoft.Rest.ClientRuntime.xml",
+        "lib/portable-net45+win+wpa81/Microsoft.Rest.ClientRuntime.dll",
+        "lib/portable-net45+win+wpa81/Microsoft.Rest.ClientRuntime.xml",
+        "microsoft.rest.clientruntime.1.8.1.nupkg.sha512",
+        "microsoft.rest.clientruntime.nuspec"
+      ]
+    },
+    "Microsoft.Rest.ClientRuntime.Azure/2.5.2": {
+      "sha512": "6GxYBn0AhlXnCssxRvbMTgofdGrJNKsHL7B3hB3Lh7HXdXdc6PC4rJHHw2WLeYb9Op3q1WB3CgL5k0xgfC/MPQ==",
+      "type": "package",
+      "path": "microsoft.rest.clientruntime.azure/2.5.2",
+      "files": [
+        "lib/dnxcore50/Microsoft.Rest.ClientRuntime.Azure.dll",
+        "lib/dnxcore50/Microsoft.Rest.ClientRuntime.Azure.xml",
+        "lib/net45/Microsoft.Rest.ClientRuntime.Azure.dll",
+        "lib/net45/Microsoft.Rest.ClientRuntime.Azure.xml",
+        "lib/portable-net45+win+wpa81/Microsoft.Rest.ClientRuntime.Azure.dll",
+        "lib/portable-net45+win+wpa81/Microsoft.Rest.ClientRuntime.Azure.xml",
+        "microsoft.rest.clientruntime.azure.2.5.2.nupkg.sha512",
+        "microsoft.rest.clientruntime.azure.nuspec"
+      ]
+    },
+    "Microsoft.Spatial/6.13.0": {
+      "sha512": "B1KZi/w1ptNPN8HzeRYg8LG4vyx5ulVnV0IJ4WWplU1vNpxDf7tKh1MV0KdZODc9mkh0Sc2WziznXd1AouW6SQ==",
+      "type": "package",
+      "path": "microsoft.spatial/6.13.0",
+      "files": [
+        "lib/dnx451/Microsoft.Spatial.dll",
+        "lib/dnx451/Microsoft.Spatial.xml",
+        "lib/dnx451/de/Microsoft.Spatial.resources.dll",
+        "lib/dnx451/es/Microsoft.Spatial.resources.dll",
+        "lib/dnx451/fr/Microsoft.Spatial.resources.dll",
+        "lib/dnx451/it/Microsoft.Spatial.resources.dll",
+        "lib/dnx451/ja/Microsoft.Spatial.resources.dll",
+        "lib/dnx451/ko/Microsoft.Spatial.resources.dll",
+        "lib/dnx451/ru/Microsoft.Spatial.resources.dll",
+        "lib/dnx451/zh-Hans/Microsoft.Spatial.resources.dll",
+        "lib/dnx451/zh-Hant/Microsoft.Spatial.resources.dll",
+        "lib/dnxcore50/Microsoft.Spatial.dll",
+        "lib/dnxcore50/Microsoft.Spatial.xml",
+        "lib/dnxcore50/de/Microsoft.Spatial.resources.dll",
+        "lib/dnxcore50/es/Microsoft.Spatial.resources.dll",
+        "lib/dnxcore50/fr/Microsoft.Spatial.resources.dll",
+        "lib/dnxcore50/it/Microsoft.Spatial.resources.dll",
+        "lib/dnxcore50/ja/Microsoft.Spatial.resources.dll",
+        "lib/dnxcore50/ko/Microsoft.Spatial.resources.dll",
+        "lib/dnxcore50/ru/Microsoft.Spatial.resources.dll",
+        "lib/dnxcore50/zh-Hans/Microsoft.Spatial.resources.dll",
+        "lib/dnxcore50/zh-Hant/Microsoft.Spatial.resources.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/Microsoft.Spatial.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/Microsoft.Spatial.xml",
+        "lib/portable-net40+sl5+wp8+win8+wpa/de/Microsoft.Spatial.resources.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/es/Microsoft.Spatial.resources.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/fr/Microsoft.Spatial.resources.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/it/Microsoft.Spatial.resources.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/ja/Microsoft.Spatial.resources.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/ko/Microsoft.Spatial.resources.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/ru/Microsoft.Spatial.resources.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/zh-Hans/Microsoft.Spatial.resources.dll",
+        "lib/portable-net40+sl5+wp8+win8+wpa/zh-Hant/Microsoft.Spatial.resources.dll",
+        "microsoft.spatial.6.13.0.nupkg.sha512",
+        "microsoft.spatial.nuspec"
+      ]
+    },
+    "Newtonsoft.Json/7.0.1": {
+      "sha512": "q3V4KLetMLnt1gpAVWgtXnHjKs0UG/RalBc29u2ZKxd5t5Ze4JBL5WiiYIklJyK/5CRiIiNwigVQUo0FgbsuWA==",
+      "type": "package",
+      "path": "newtonsoft.json/7.0.1",
+      "files": [
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
+        "newtonsoft.json.7.0.1.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "tools/install.ps1"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "": [],
+    ".NETFramework,Version=v4.6": [
+      "Microsoft.Azure.Search >= 1.1.3"
+    ]
+  },
+  "tools": {},
+  "projectFileToolGroups": {},
+  "packageFolders": {
+    "D:\\home\\data\\Functions\\packages\\nuget": {}
+  }
+}
