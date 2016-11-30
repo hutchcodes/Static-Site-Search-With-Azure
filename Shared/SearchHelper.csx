@@ -130,7 +130,7 @@ public static class SearchHelper
 
         var searchServiceClient = new SearchServiceClient(searchServiceName, new SearchCredentials(queryApiKey));
 
-        if (!searchServiceClient.Indexes.Exists(searchIndexName))
+        if (searchServiceClient.Indexes.Exists(searchIndexName))
         {
             searchServiceClient.Indexes.Delete(searchIndexName);
         }
