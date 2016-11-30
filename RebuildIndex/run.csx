@@ -10,7 +10,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
  
     WebClient client = new WebClient();
     client.Encoding = System.Text.Encoding.UTF8;
-    string value = client.DownloadString(Settings.GetSetting("SearchJsonUrl");
+    string value = client.DownloadString(Settings.GetSetting("SearchJsonUrl"));
     var searchItems = JsonConvert.DeserializeObject<List<Page>>(value);
 
     SearchHelper.UpdateSearch(searchItems);
