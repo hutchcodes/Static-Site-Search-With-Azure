@@ -21,5 +21,6 @@ public class Page
     public string Content { get; set; }
     public string Excerpt { get; set; }
     public List<string> Categories { get; set; }
+    public List<string> Tags { get; set; }
 
 }

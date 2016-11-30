@@ -54,6 +54,7 @@ public static class SearchHelper
 
     public static void UpdateSearch(IEnumerable<Page> searchTopics)
     {
+        DeleteIndex();
         SearchIndexClient indexClient = GetIndexClient();
 
         var actions = new List<IndexAction<Page>>();
