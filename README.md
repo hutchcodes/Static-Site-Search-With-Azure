@@ -12,7 +12,7 @@ The following Application settings need to be configured in your Function App
 - `SearchApiKey` - The Admin Key of your Azure Search instance
 - `SarchIndexName` - The name of the Azure Search Index you want to use
 
-The Search Index will be deleted and recreated each time the RebuildIndex Function runs. This is because I have no way to pass deleted posts up to delete them from the Search Index.
+The Search Index will be deleted and recreated each time the BlogIndexer Function runs. This is because I have no way to pass deleted posts up to delete them from the Search Index.
 
 # Searching
 
