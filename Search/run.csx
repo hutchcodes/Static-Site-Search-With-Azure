@@ -9,11 +9,15 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         .FirstOrDefault(q => string.Compare(q.Key, "search", true) == 0)
         .Value;
 
-    string facet = req.GetQueryNameValuePairs()
-        .FirstOrDefault(q => string.Compare(q.Key, "facet", true) == 0)
+    string cat = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "cat", true) == 0)
         .Value;        
 
-    var response = SearchHelper.Search(search, facet);
+	string tag = req.GetQueryNameValuePairs()
+        .FirstOrDefault(q => string.Compare(q.Key, "tag", true) == 0)
+        .Value; 
+
+    var response = SearchHelper.Search(search, cat, tag);
 
     return req.CreateResponse(HttpStatusCode.OK, response); 
 } 

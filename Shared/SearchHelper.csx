@@ -6,14 +6,18 @@ using Microsoft.Azure.Search.Models;
 
 public static class SearchHelper 
 {
-    public static string Search(string search = null, string facet = null, int start = 0)
+    public static DocumentSearchResult<Page> Search(string search = null, string cat = null, string tag = null)
     {
         var indexClient = GetIndexClient();
 
         string facetFilter = "";
-        if (!string.IsNullOrEmpty(facet))
+        if (!string.IsNullOrEmpty(cat))
         {
-            facetFilter = $"Categories/any(c: c eq '{facet}')";
+            facetFilter = $"Categories/any(c: c eq '{cat}')";
+        }
+        if (!string.IsNullOrEmpty(tag))
+        {
+            facetFilter = $"Tags/any(c: c eq '{tag}')";
         }
 
         var searchParams = new SearchParameters();
@@ -21,35 +25,12 @@ public static class SearchHelper
         searchParams.QueryType = QueryType.Full;
         searchParams.SearchMode = SearchMode.Any;
         searchParams.Top = 10000;
-        searchParams.Select = new[] { "Url", "Type", "Title", "Excerpt", "Categories", "PublishDate" };
+        searchParams.Select = new[] { "Url", "Type", "Title", "Excerpt", "Categories", "Tags", "PublishDate" };
         searchParams.Filter = facetFilter;
-        searchParams.Facets = new[] { "Categories" };
+        searchParams.Facets = new[] { "Categories", "Tags" };
         var searchResults = indexClient.Documents.Search<Page>(search, searchParams);
 
-        string response = "";
-
-        foreach (var r in searchResults.Results)
-        {
-            if (r.Document.Type == "post") {
-
-                var categories = "";
-                foreach (var c in r.Document.Categories)
-                {
-                    categories += $"<a href='/archives/#{c}'>{c}</a>&nbsp;";
-                }
-                if (!string.IsNullOrEmpty(categories))
-                {
-                    categories = " in " + categories;
-                }
-
-                response += $"<article class='post'> <header class='jumbotron'> <h2 class='postTitle'><a href='{r.Document.Url}'>{r.Document.Title}</a></h2> <abbr class='postDate' title='{r.Document.PublishDate}'>{r.Document.PublishDate?.ToString("MMMM dd, yyyy")}</abbr>{categories}</header> <div class='articleBody'>{r.Document.Excerpt}</div><div><a href='{r.Document.Url}'>Continue Reading</a></div></article>";
-            }
-            else
-            {
-                response += $"<article class='post'> <header class='jumbotron'> <h2 class='postTitle'><a href='{r.Document.Url}'>{r.Document.Title}</a></h2></header> <div class='articleBody'>{r.Document.Excerpt}</div><div><a href='{r.Document.Url}'>Continue Reading</a></div></article>";
-            }
-        }
-        return response;
+        return searchResults;
     }
 
     public static void UpdateSearch(IEnumerable<Page> searchTopics)
