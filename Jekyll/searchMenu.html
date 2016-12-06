@@ -1,0 +1,16 @@
+<div id="searchSection">
+    <section id="Search">
+        <input type="text" id="searchText" placeholder="Search" onkeypress="searchKeyPress(event)" />
+    </section>
+    <section id="CatMenuSection">
+        <h3 id="CatMenuHeader">Categories</h3>
+        {% assign sortedcats = site.categories | sort %}
+        <ul id="CatMenu">
+            {% for category in sortedcats  %}
+            <li>
+                <a class="category" href="/search/?search&cat={{category | first}}">{{ category | first }} ({{ category[1] | size }})</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
