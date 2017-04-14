@@ -110,8 +110,8 @@
       "location": "[resourceGroup().location]",
       "properties": {
         "name": "[variables('hostingPlanName')]",
-        "computeMode": "Dynamic",
-        "sku": "Dynamic"
+        "computeMode": "dynamic",
+        "sku": "dynamic"
       }
     },
     {
