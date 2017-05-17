@@ -16,7 +16,7 @@ The following Application settings need to be configured in your Function App
 - **`SearchJsonUrl`** - The URL of the *search.json* in your Jekyll site
 - **`SearchServiceName`** - The name of your Azure Search instance
 - **`SearchApiKey`** - The Admin Key of your Azure Search instance
-- **`SarchIndexName`** - The name of the Azure Search Index you want to use
+- **`SearchIndexName`** - The name of the Azure Search Index you want to use
 
 The Search Index will be deleted and recreated each time the BlogIndexer Function runs. This is because I have no way to pass deleted posts up to delete them from the Search Index.
 
