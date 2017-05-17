@@ -56,6 +56,22 @@
                 "name": "Search Json Url",
                 "description": "Url of the search.json output by your static site (eg https://myblog.net/search.json)"
             }
+        },
+        "GitRepoUrl": {
+            "type": "String",
+            "defaultValue": "https://github.com/hutchcodes/Jekyll-Search-With-Azure-Functions.git",
+            "metadata": {
+                "name": "Repo Url",
+                "description": "Url of the Git repo to pull the function app from"
+            }
+        },
+        "GitBranch": {
+            "type": "String",
+            "defaultValue": "master",
+            "metadata": {
+                "name": "Branch",
+                "description": "Branch of the Git repo to pull the function app from"
+            }
         }
     },
     "variables": {
@@ -80,7 +96,6 @@
                 "hostingMode": "Default"
             },
             "dependsOn": []
-           
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
@@ -94,7 +109,9 @@
             "location": "[resourceGroup().location]",
             "tags": {},
             "properties": {},
-            "dependsOn": ["[resourceId('Microsoft.Search/searchServices', parameters('searchServiceName'))]"]
+            "dependsOn": [
+                "[resourceId('Microsoft.Search/searchServices', parameters('searchServiceName'))]"
+            ]
         },
         {
             "type": "Microsoft.Web/serverfarms",
@@ -113,7 +130,9 @@
                 "name": "[parameters('AppServicePlanName')]",
                 "numberOfWorkers": 0
             },
-            "dependsOn": ["[resourceId('Microsoft.Search/searchServices', parameters('searchServiceName'))]"]
+            "dependsOn": [
+                "[resourceId('Microsoft.Search/searchServices', parameters('searchServiceName'))]"
+            ]
         },
         {
             "type": "Microsoft.Web/sites",
@@ -144,171 +163,49 @@
                         "ipBasedSslState": 0
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('AppServicePlanName'))]",
-                "siteConfig": {
-                    "appSettings": [
-                        {
-                            "name": "AzureWebJobsDashboard",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('FunctionStorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
-                        },
-                        {
-                            "name": "AzureWebJobsStorage",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('FunctionStorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
-                        },
-                        {
-                            "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
-                            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('FunctionStorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]"
-                        },
-                        {
-                            "name": "WEBSITE_CONTENTSHARE",
-                            "value": "[toLower(parameters('FunctionAppName'))]"
-                        },
-                        {
-                            "name": "FUNCTIONS_EXTENSION_VERSION",
-                            "value": "~1"
-                        },
-                        {
-                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                            "value": "6.5.0"
-                        },
-                        {
-                            "name": "SearchApiKey",
-                            "value": "[listKeys(variables('searchServiceId'), '2015-08-19').key1]"
-                        },
-                        {
-                            "name": "SearchServiceName",
-                            "value": "[parameters('SearchServiceName')]"
-                        },
-                        {
-                            "name": "SearchIndexName",
-                            "value": "[parameters('searchIndexName')]"
-                        },
-                        {
-                            "name": "SearchJsonUrl",
-                            "value": "[parameters('SearchJsonUrl')]"
-                        }
-                    ]
-                }
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('AppServicePlanName'))]"
             },
+            "resources": [
+                {
+                    "apiVersion": "2015-08-01",
+                    "name": "appsettings",
+                    "type": "config",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', parameters('FunctionAppName'))]",
+                        "[resourceId('Microsoft.Storage/storageAccounts', parameters('FunctionStorageAccountName'))]"
+                    ],
+                    "properties": {
+                        "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('FunctionStorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
+                        "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('FunctionStorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
+                        "FUNCTIONS_EXTENSION_VERSION": "~1",
+                        "WEBSITE_CONTENTSHARE": "[toLower(parameters('FunctionAppName'))]",
+                        "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('FunctionStorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
+                        "WEBSITE_NODE_DEFAULT_VERSION": "6.5.0",
+                        "SearchApiKey": "[listAdminKeys(variables('searchServiceId'), '2015-08-19').PrimaryKey]",
+                        "SearchServiceName": "[parameters('SearchServiceName')]",
+                        "SearchIndexName": "[parameters('searchIndexName')]",
+                        "SearchJsonUrl": "[parameters('SearchJsonUrl')]"                        
+                    }
+                },
+                {
+                    "apiVersion": "2015-04-01",
+                    "name": "web",
+                    "type": "sourcecontrols",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', parameters('FunctionAppName'))]",
+                        "[concat('Microsoft.Web/Sites/', parameters('FunctionAppName'), '/config/appsettings')]"
+                    ],
+                    "properties": {
+                        "repoUrl": "[parameters('GitRepoUrl')]",
+                        "branch": "[parameters('GitBranch')]",
+                        "IsManualIntegration": true
+                    }
+                }
+            ],
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('AppServicePlanName'))]",
                 "[resourceId('Microsoft.Storage/storageAccounts', parameters('FunctionStorageAccountName'))]",
                 "[resourceId('Microsoft.Search/searchServices', parameters('searchServiceName'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.Web/sites/config",
-            "name": "[variables('config_web_name')]",
-            "apiVersion": "2015-08-01",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "numberOfWorkers": 1,
-                "defaultDocuments": [
-                    "Default.htm",
-                    "Default.html",
-                    "Default.asp",
-                    "index.htm",
-                    "index.html",
-                    "iisstart.htm",
-                    "default.aspx",
-                    "index.php",
-                    "hostingstart.html"
-                ],
-                "netFrameworkVersion": "v4.0",
-                "phpVersion": "5.6",
-                "pythonVersion": "",
-                "nodeVersion": "",
-                "linuxFxVersion": "",
-                "requestTracingEnabled": false,
-                "remoteDebuggingEnabled": false,
-                "remoteDebuggingVersion": "VS2012",
-                "httpLoggingEnabled": false,
-                "logsDirectorySizeLimit": 35,
-                "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$hutchcodes-functions",
-                "publishingPassword": null,
-                "appSettings": null,
-                "metadata": null,
-                "connectionStrings": null,
-                "machineKey": null,
-                "handlerMappings": null,
-                "documentRoot": null,
-                "scmType": "GitHub",
-                "use32BitWorkerProcess": true,
-                "webSocketsEnabled": false,
-                "alwaysOn": false,
-                "javaVersion": null,
-                "javaContainer": null,
-                "javaContainerVersion": null,
-                "appCommandLine": "",
-                "managedPipelineMode": 0,
-                "virtualApplications": [
-                    {
-                        "virtualPath": "/",
-                        "physicalPath": "site\\wwwroot",
-                        "preloadEnabled": false,
-                        "virtualDirectories": null
-                    }
-                ],
-                "winAuthAdminState": 0,
-                "winAuthTenantState": 0,
-                "customAppPoolIdentityAdminState": false,
-                "customAppPoolIdentityTenantState": false,
-                "runtimeADUser": null,
-                "runtimeADUserPassword": null,
-                "loadBalancing": 1,
-                "routingRules": [],
-                "experiments": {
-                    "rampUpRules": []
-                },
-                "limits": null,
-                "autoHealEnabled": false,
-                "autoHealRules": {
-                    "triggers": null,
-                    "actions": null
-                },
-                "tracingOptions": null,
-                "vnetName": "",
-                "siteAuthEnabled": false,
-                "siteAuthSettings": {
-                    "enabled": null,
-                    "unauthenticatedClientAction": null,
-                    "tokenStoreEnabled": null,
-                    "allowedExternalRedirectUrls": null,
-                    "defaultProvider": null,
-                    "clientId": null,
-                    "clientSecret": null,
-                    "issuer": null,
-                    "allowedAudiences": null,
-                    "additionalLoginParams": null,
-                    "isAadAutoProvisioned": false,
-                    "googleClientId": null,
-                    "googleClientSecret": null,
-                    "googleOAuthScopes": null,
-                    "facebookAppId": null,
-                    "facebookAppSecret": null,
-                    "facebookOAuthScopes": null,
-                    "twitterConsumerKey": null,
-                    "twitterConsumerSecret": null,
-                    "microsoftAccountClientId": null,
-                    "microsoftAccountClientSecret": null,
-                    "microsoftAccountOAuthScopes": null
-                },
-                "cors": {
-                    "allowedOrigins": [
-                        "https://functions.azure.com",
-                        "https://functions-staging.azure.com",
-                        "https://functions-next.azure.com"
-                    ]
-                },
-                "push": null,
-                "apiDefinition": null,
-                "autoSwapSlotName": null,
-                "localMySqlEnabled": false,
-                "ipSecurityRestrictions": null
-            },
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('FunctionAppName'))]"
             ]
         }
     ]
