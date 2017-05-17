@@ -1,4 +1,3 @@
-# These buttons don't actually work yet, I'm still learning about ARM Templates and I have a ways to go...
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fhutchcodes%2FJekyll-Search-With-Azure-Functions%2Fmaster%2FJekyllSearch.json)
 <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Fhutchcodes%2FJekyll-Search-With-Azure-Functions%2Fmaster%2FJekyllSearch.json" target="_blank">
     <img src="http://armviz.io/visualizebutton.png"/>
