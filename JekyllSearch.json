@@ -14,7 +14,7 @@
             "defaultValue": "StaticSiteIndex",
             "metadata": {
                 "name": "Search Index Name",
-                "description": "Name of the Index that will store the search data."
+                "description": "Must start with a letter and must contain only lowercase letters, digits or dashes."
             }
         },
         "SearchSku": {
@@ -76,10 +76,10 @@
     },
     "variables": {
         "config_web_name": "[concat(parameters('FunctionAppName'), '/web')]",
-        "hostName": "[concat(parameters('FunctionAppName'), '.azurewebsites.net')]",
-        "scmHostName": "[concat(parameters('FunctionAppName'), '.scm.azurewebsites.net')]",
-        "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', parameters('FunctionStorageAccountName'))]",
-        "searchServiceId": "[resourceId('Microsoft.Search/searchServices', parameters('SearchServiceName'))]"
+        "hostName": "[concat(toLower(parameters('FunctionAppName')), '.azurewebsites.net')]",
+        "scmHostName": "[concat(toLower(parameters('FunctionAppName')), '.scm.azurewebsites.net')]",
+        "storageAccountid": "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', toLower(parameters('FunctionStorageAccountName')))]",
+        "searchServiceId": "[resourceId('Microsoft.Search/searchServices', toLower(parameters('SearchServiceName')))]"
     },
     "resources": [
         {
@@ -87,7 +87,7 @@
             "sku": {
                 "name": "[parameters('SearchSku')]"
             },
-            "name": "[parameters('SearchServiceName')]",
+            "name": "[toLower(parameters('SearchServiceName'))]",
             "apiVersion": "2015-08-19",
             "location": "[resourceGroup().location]",
             "properties": {
@@ -104,13 +104,13 @@
                 "tier": "Standard"
             },
             "kind": "Storage",
-            "name": "[parameters('FunctionStorageAccountName')]",
+            "name": "[toLower(parameters('FunctionStorageAccountName'))]",
             "apiVersion": "2016-01-01",
             "location": "[resourceGroup().location]",
             "tags": {},
             "properties": {},
             "dependsOn": [
-                "[resourceId('Microsoft.Search/searchServices', parameters('searchServiceName'))]"
+                "[resourceId('Microsoft.Search/searchServices', toLower(parameters('searchServiceName')))]"
             ]
         },
         {
@@ -131,17 +131,17 @@
                 "numberOfWorkers": 0
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Search/searchServices', parameters('searchServiceName'))]"
+                "[resourceId('Microsoft.Search/searchServices', toLower(parameters('searchServiceName')))]"
             ]
         },
         {
             "type": "Microsoft.Web/sites",
             "kind": "functionapp",
-            "name": "[parameters('FunctionAppName')]",
+            "name": "[toLower(parameters('FunctionAppName'))]",
             "apiVersion": "2015-08-01",
             "location": "[resourceGroup().location]",
             "properties": {
-                "name": "[parameters('FunctionAppName')]",
+                "name": "[toLower(parameters('FunctionAppName'))]",
                 "hostNames": [
                     "[variables('hostName')]"
                 ],
@@ -151,13 +151,13 @@
                 ],
                 "hostNameSslStates": [
                     {
-                        "name": "[concat(parameters('FunctionAppName'),'.azurewebsites.net')]",
+                        "name": "[concat(toLower(parameters('FunctionAppName')),'.azurewebsites.net')]",
                         "sslState": 0,
                         "thumbprint": null,
                         "ipBasedSslState": 0
                     },
                     {
-                        "name": "[concat(parameters('FunctionAppName'),'.scm.azurewebsites.net')]",
+                        "name": "[concat(toLower(parameters('FunctionAppName')),'.scm.azurewebsites.net')]",
                         "sslState": 0,
                         "thumbprint": null,
                         "ipBasedSslState": 0
@@ -171,19 +171,19 @@
                     "name": "appsettings",
                     "type": "config",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', parameters('FunctionAppName'))]",
-                        "[resourceId('Microsoft.Storage/storageAccounts', parameters('FunctionStorageAccountName'))]"
+                        "[resourceId('Microsoft.Web/Sites', toLower(parameters('FunctionAppName')))]",
+                        "[resourceId('Microsoft.Storage/storageAccounts', toLower(parameters('FunctionStorageAccountName')))]"
                     ],
                     "properties": {
-                        "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('FunctionStorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
-                        "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('FunctionStorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
+                        "AzureWebJobsStorage": "[concat('DefaultEndpointsProtocol=https;AccountName=', toLower(parameters('FunctionStorageAccountName')), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
+                        "AzureWebJobsDashboard": "[concat('DefaultEndpointsProtocol=https;AccountName=', toLower(parameters('FunctionStorageAccountName')), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
                         "FUNCTIONS_EXTENSION_VERSION": "~1",
                         "WEBSITE_CONTENTSHARE": "[toLower(parameters('FunctionAppName'))]",
-                        "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('FunctionStorageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
+                        "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "[concat('DefaultEndpointsProtocol=https;AccountName=', toLower(parameters('FunctionStorageAccountName')), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
                         "WEBSITE_NODE_DEFAULT_VERSION": "6.5.0",
                         "SearchApiKey": "[listAdminKeys(variables('searchServiceId'), '2015-08-19').PrimaryKey]",
-                        "SearchServiceName": "[parameters('SearchServiceName')]",
-                        "SearchIndexName": "[parameters('searchIndexName')]",
+                        "SearchServiceName": "[toLower(parameters('SearchServiceName'))]",
+                        "SearchIndexName": "[toLower(parameters('searchIndexName'))]",
                         "SearchJsonUrl": "[parameters('SearchJsonUrl')]"                        
                     }
                 },
@@ -192,8 +192,8 @@
                     "name": "web",
                     "type": "sourcecontrols",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', parameters('FunctionAppName'))]",
-                        "[concat('Microsoft.Web/Sites/', parameters('FunctionAppName'), '/config/appsettings')]"
+                        "[resourceId('Microsoft.Web/Sites', toLower(parameters('FunctionAppName')))]",
+                        "[concat('Microsoft.Web/Sites/', toLower(parameters('FunctionAppName')), '/config/appsettings')]"
                     ],
                     "properties": {
                         "repoUrl": "[parameters('GitRepoUrl')]",
@@ -204,8 +204,8 @@
             ],
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('AppServicePlanName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('FunctionStorageAccountName'))]",
-                "[resourceId('Microsoft.Search/searchServices', parameters('searchServiceName'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', toLower(parameters('FunctionStorageAccountName')))]",
+                "[resourceId('Microsoft.Search/searchServices', toLower(parameters('searchServiceName')))]"
             ]
         }
     ]
