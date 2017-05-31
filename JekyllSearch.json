@@ -11,7 +11,7 @@
         },
         "SearchIndexName": {
             "type": "String",
-            "defaultValue": "StaticSiteIndex",
+            "defaultValue": "static-site",
             "metadata": {
                 "name": "Search Index Name",
                 "description": "Must start with a letter and must contain only lowercase letters, digits or dashes."
