@@ -59,7 +59,7 @@
         },
         "GitRepoUrl": {
             "type": "String",
-            "defaultValue": "https://github.com/hutchcodes/Jekyll-Search-With-Azure-Functions.git",
+            "defaultValue": "https://github.com/hutchcodes/Static-Site-Search-With-Azure.git",
             "metadata": {
                 "name": "Repo Url",
                 "description": "Url of the Git repo to pull the function app from"
